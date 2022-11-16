@@ -1,7 +1,11 @@
-pub mod vec3;
-use vec3::Vec3;
+extern crate nalgebra;
 
-type Color = Vec3;
+pub mod ray;
+use ray::Ray;
+
+use nalgebra::Vector3;
+
+type Color = Vector3<u32>;
 
 fn main() {
     let image_w = 256;
@@ -9,20 +13,18 @@ fn main() {
 
     println!("P3\n{image_w} {image_h}\n255");
 
+    let ray: Ray;
+
     for j in (0..image_h).rev() {
         eprintln!("scanlines: {:3}/{}", j, image_h);
         for i in 0..image_w {
-            let color: Color = Color {
-                x: (i as f64) / ((image_w - 1) as f64),
-                y: (j as f64) / ((image_h - 1) as f64),
-                z: 0.25,
-            };
+            let color: Color = Color::new(
+                (255.999 * (i as f64) / ((image_w - 1) as f64)) as u32,
+                (255.999 * (j as f64) / ((image_h - 1) as f64)) as u32,
+                ((255.999) * 0.25) as u32,
+            );
 
-            let ir = (255.999 * color.x) as u32;
-            let ig = (255.999 * color.y) as u32;
-            let ib = (255.999 * color.x) as u32;
-
-            println!("{ir} {ig} {ib}")
+            println!("{},{},{}", color.x, color.y, color.z);
         }
     }
 }
