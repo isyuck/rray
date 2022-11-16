@@ -57,6 +57,7 @@ fn main() {
     println!("P3\n{image_w} {image_h}\n255");
 
     for j in (0..image_h).rev() {
+        eprintln!("scanlines: {:3}/{}", j, image_h);
         for i in 0..image_w {
             let r: f64 = (i as f64) / ((image_w - 1) as f64);
             let g: f64 = (j as f64) / ((image_h - 1) as f64);
